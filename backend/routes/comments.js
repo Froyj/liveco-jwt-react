@@ -4,7 +4,11 @@ const connection = require("../db");
 
 router.get("/", (req, res, next) => {
   const { userId } = req.params;
-  const query = "SELECT * FROM comment WHERE user_id=?;";
+  let query = "SELECT * FROM comment";
+  if (userId) {
+    query += " WHERE user_id=?"
+  }
+  query += " "
   connection.query(query, userId, (err, results, fields) => {
     res.status(200).json(results);
   });

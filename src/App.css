@@ -9,8 +9,20 @@
 
 label {
   display: block;
+  margin: 1em;
 }
 
 li {
   list-style: none;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row-reverse;
+}
+
+.nav li {
+  display:inline;
+  margin: 2em;
 }
