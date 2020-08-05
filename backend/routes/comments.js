@@ -4,9 +4,9 @@ const connection = require("../db");
 
 const util = require("util");
 const queryAsync = util.promisify(connection.query).bind(connection);
-const { simpleAuth } = require("../services/jwt");
+const { simpleAuth, checkUserId } = require("../services/jwt");
 
-router.get("/", (req, res, next) => {
+router.get("/", simpleAuth, checkUserId, (req, res, next) => {
   const { userId } = req.params;
   let query = "SELECT * FROM comment";
   if (userId) {

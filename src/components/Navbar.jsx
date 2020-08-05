@@ -7,10 +7,10 @@ const Navbar = ({user, setUser}) => {
     <nav className="nav">
       <ul>
         <li>
-          <NavLink to="/login">Login</NavLink>
+          {!user &&  <NavLink to="/login">Login</NavLink>}
         </li>
         <li>
-          <NavLink to="/signin">Signin</NavLink>
+        {!user &&  <NavLink to="/signin">Signin</NavLink>}
         </li>
         <li>{user && <DisconnectButton setUser={setUser}/>}</li>
       </ul>

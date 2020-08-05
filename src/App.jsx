@@ -23,7 +23,7 @@ function App() {
           <Login setUser={setUser} />
         </Route>
         <Route path="/signin">
-          {user ? null : <Signin />}
+          <Signin />
         </Route>
         <Route path="/comments">
           <CommentsContainer />

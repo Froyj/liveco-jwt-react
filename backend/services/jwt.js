@@ -18,6 +18,14 @@ const simpleAuth = expressJwt({
   algorithms: ["HS256"],
 });
 
+const checkUserId = (req, res, next) => {
+  if(req.user.data.id === req.params.id) {
+    next();
+  } else {
+    res.status(401).send('You cannot see this')
+  }
+}
+
 const roleBasedAuth = (roles = []) => {
   if (typeof roles === "string") {
     roles = [roles];
@@ -54,4 +62,5 @@ module.exports = {
   createToken,
   simpleAuth,
   roleBasedAuth,
+  checkUserId
 };
