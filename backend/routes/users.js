@@ -1,12 +1,12 @@
 const express = require("express");
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const connection = require("../db");
 
-const comments = require('./comments');
+const comments = require("./comments");
 
-const {simpleAuth} = require('../services/jwt');
+const { authWithJwt, checkUserId } = require("../services/jwt");
 
-router.use('/:userId/comments', comments);
+router.use("/:userId/comments", authWithJwt, checkUserId, comments);
 
 router.get("/", (req, res, next) => {
   const query = "SELECT * FROM user;";
@@ -30,7 +30,7 @@ router.post("/", (req, res, next) => {
     query,
     { name, email, password },
     (error, results, fields) => {
-      if(error) console.log(error);
+      if (error) console.log(error);
       res.status(201).json({
         user_id: results.insertId,
         name,
@@ -52,13 +52,12 @@ router.put("/:userId", (req, res, next) => {
   });
 });
 
-router.delete("/:userId", simpleAuth, (req, res, next) => {
+router.delete("/:userId", (req, res, next) => {
   const { userId } = req.params;
   const query = "DELETE FROM user WHERE user_id=?;";
   connection.query(query, userId, (error, results, fields) => {
     res.sendStatus(204);
   });
 });
-
 
 module.exports = router;

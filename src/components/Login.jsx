@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-const Login = ({setUser}) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,11 +10,6 @@ const Login = ({setUser}) => {
       email,
       password
     })
-    .then(res => res.data)
-    .then(res => {
-      setUser(res.id);
-    })
-    
   }
 
   return (

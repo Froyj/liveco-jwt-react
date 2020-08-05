@@ -6,32 +6,33 @@ const db = require("../db");
 const util = require("util");
 const queryAsync = util.promisify(db.query).bind(db);
 
+const saltRounds = 10;
+
 router.post("/", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
   try {
-    // vérifier que l'utilisateur n'existe pas déjà
-    const checkQuery = "SELECT * FROM user WHERE email = ?";
-    const result = await queryAsync(checkQuery, email);
-    const userExists = Boolean(result.length);
-    if (userExists) {
-      return res.status(409).json({
-        statusCode: 409,
-        message: "User already exists with this email"
-      });
+    const query = 'SELECT * FROM user WHERE email = ?';
+    const results = await queryAsync(query, email);
+    if(results.length > 0) {
+      return res.status(409).send('User already exists');
     }
-
-    // Générer un hash sur la base du mdp
-    const hash = bcrypt.hashSync(password, 10);
-
-    //Faire l'insertion si il n'existe pas déjà
-    const insertQuery = "INSERT INTO user SET ?";
-    const insResult = await queryAsync(insertQuery, {...req.body, password:hash});
-    res.status(201).json({
-      id: insResult.insertId,
-      ...req.body,
-    });
+    const insertQuery = 'INSERT INTO user SET ?'
+    bcrypt.hash(password, saltRounds, async function(err, hash) {
+      // Store hash in your password DB.
+      const insertResult = await queryAsync(insertQuery, {
+        email,
+        password: hash,
+        name
+      })
+      res.status(201).json({
+        id: insertResult.insertId,
+        email,
+        password: hash,
+        name
+      })
+  });
   } catch (err) {
-    console.log(err);
+    console.log(err)
     res.status(500).send('A problem occured !')
   }
 });

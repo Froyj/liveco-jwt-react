@@ -8,18 +8,7 @@ const Signin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("/api/signin", {
-        name,
-        email,
-        password,
-      })
-      .then((res) => res.data)
-      .then(() => setMessage("You got registered !"))
-      .catch(err => {
-        if(err.message === "Request failed with status code 409")
-        setMessage("User already registered with this email")
-      })
+    
   };
 
   return (

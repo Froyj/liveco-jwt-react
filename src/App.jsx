@@ -29,14 +29,10 @@ function App() {
           <CommentsContainer />
         </Route>
         <Route path="/my-comments">
-          {user ? (
-            <UserCommentsContainer user={user} />
-          ) : (
-            <Redirect to="/login" />
-          )}
+          <UserCommentsContainer user={user} />
         </Route>
         <Route path="/post-comment">
-          {user ? <PostMessage user={user} /> : <Redirect to="/login" />}
+          <PostMessage user={user} />
         </Route>
       </Switch>
     </div>

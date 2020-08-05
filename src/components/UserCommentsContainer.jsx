@@ -6,7 +6,7 @@ import CommentsDiplay from './CommentsDisplay';
 const UserCommentsContainer = ({user}) => {
   const [comments, setComments] = useState([])
   useEffect(() => {
-    axios.get(`/api/users/${user}/comments`, {withCredentials: true})
+    axios.get(`/api/users/${user}/comments`)
     .then(res => res.data)
     .then(res => setComments(res))
   }, [user])
