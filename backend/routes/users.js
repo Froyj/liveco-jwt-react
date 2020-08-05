@@ -6,6 +6,8 @@ const comments = require('./comments');
 
 const {simpleAuth} = require('../services/jwt');
 
+router.use('/:userId/comments', comments);
+
 router.get("/", (req, res, next) => {
   const query = "SELECT * FROM user;";
   connection.query(query, (err, results, fields) => {
@@ -58,6 +60,5 @@ router.delete("/:userId", simpleAuth, (req, res, next) => {
   });
 });
 
-router.use('/:userId/comments', comments);
 
 module.exports = router;

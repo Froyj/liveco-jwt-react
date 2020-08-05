@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import axios from 'axios';
-const Login = () => {
+const Login = ({setUser}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.get('/login', {
+    axios.post('/api/login', {
       email,
       password
     })
+    .then(res => res.data)
+    .then(res => {
+      setUser(res.id);
+    })
+    
   }
 
   return (

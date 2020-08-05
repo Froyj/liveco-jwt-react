@@ -24,5 +24,9 @@ li {
 
 .nav li {
   display:inline;
-  margin: 2em;
+  margin: 0.5em;
+}
+
+.alert {
+  color: red;
 }

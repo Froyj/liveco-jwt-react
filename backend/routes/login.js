@@ -17,6 +17,8 @@ router.post("/", async (req, res, next) => {
     const isAuthentified = bcrypt.compareSync(password, hashedPassword);
     if(isAuthentified) {
       const token = createToken({ userId })
+      res.cookie('token', token, { httpOnly: true });
+      res.cookie('id', userId, { httpOnly: false });
       return res.status(200).json({
         id: userId,
         token

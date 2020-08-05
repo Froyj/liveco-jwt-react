@@ -14,7 +14,10 @@ router.post("/", async (req, res, next) => {
     const result = await queryAsync(checkQuery, email);
     const userExists = Boolean(result.length);
     if (userExists) {
-      return res.status(409).send("User already exists with this email");
+      return res.status(409).json({
+        statusCode: 409,
+        message: "User already exists with this email"
+      });
     }
 
     // Générer un hash sur la base du mdp

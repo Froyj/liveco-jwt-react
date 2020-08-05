@@ -13,12 +13,13 @@ const createToken = (payload) => {
 };
 
 const simpleAuth = expressJwt({
+  getToken: (req) => req.cookies.token,
   secret: process.env.JWT_KEY,
   algorithms: ["HS256"],
 });
 
 const roleBasedAuth = (roles = []) => {
-  if(typeof roles === 'string') {
+  if (typeof roles === "string") {
     roles = [roles];
   }
 
@@ -26,16 +27,31 @@ const roleBasedAuth = (roles = []) => {
     simpleAuth,
     (req, res, next) => {
       if (roles.length && !roles.includes(req.user.data.role)) {
-        return res.status(403).send('You shall not pass !')
+        return res.status(403).send("You shall not pass !");
       }
       next();
-    }
-  ]
-}
+    },
+  ];
+};
 
+const idBasedAuth = (roles = []) => {
+  if (typeof roles === "string") {
+    roles = [roles];
+  }
+
+  return [
+    simpleAuth,
+    (req, res, next) => {
+      if (roles.length && !roles.includes(req.user.data.role)) {
+        return res.status(403).send("You shall not pass !");
+      }
+      next();
+    },
+  ];
+};
 
 module.exports = {
   createToken,
   simpleAuth,
-  roleBasedAuth
+  roleBasedAuth,
 };
