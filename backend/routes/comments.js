@@ -3,7 +3,7 @@ const router = express.Router({mergeParams: true});
 const connection = require("../db");
 
 const util = require("util");
-const queryAsync = util.promisify(db.query).bind(db);
+const queryAsync = util.promisify(connection.query).bind(connection);
 
 router.get("/", (req, res, next) => {
   const { userId } = req.params;

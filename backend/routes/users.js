@@ -4,6 +4,8 @@ const connection = require("../db");
 
 const comments = require('./comments');
 
+const {simpleAuth} = require('../services/jwt');
+
 router.get("/", (req, res, next) => {
   const query = "SELECT * FROM user;";
   connection.query(query, (err, results, fields) => {
@@ -48,7 +50,7 @@ router.put("/:userId", (req, res, next) => {
   });
 });
 
-router.delete("/:userId", (req, res, next) => {
+router.delete("/:userId", simpleAuth, (req, res, next) => {
   const { userId } = req.params;
   const query = "DELETE FROM user WHERE user_id=?;";
   connection.query(query, userId, (error, results, fields) => {
