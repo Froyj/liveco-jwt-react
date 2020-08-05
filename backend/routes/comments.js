@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router({mergeParams: true});
 const connection = require("../db");
 
+const util = require("util");
+const queryAsync = util.promisify(db.query).bind(db);
+
 router.get("/", (req, res, next) => {
   const { userId } = req.params;
   let query = "SELECT * FROM comment";
@@ -9,7 +12,7 @@ router.get("/", (req, res, next) => {
     query += " WHERE user_id=?"
   }
   query += " "
-  connection.query(query, userId, (err, results, fields) => {
+  queryAsync(query, userId, (err, results, fields) => {
     res.status(200).json(results);
   });
 });
