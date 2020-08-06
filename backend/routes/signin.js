@@ -17,8 +17,8 @@ router.post("/", async (req, res, next) => {
       return res.status(409).send('User already exists');
     }
     const insertQuery = 'INSERT INTO user SET ?'
+    //Hash du mdp et stockage du mdp hashé en base
     bcrypt.hash(password, saltRounds, async function(err, hash) {
-      // Store hash in your password DB.
       const insertResult = await queryAsync(insertQuery, {
         email,
         password: hash,

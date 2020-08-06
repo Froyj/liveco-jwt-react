@@ -14,6 +14,7 @@ const createToken = (payload) => {
 };
 
 const authWithJwt = expressJwt({
+  getToken: req => req.cookies.token,
   secret: process.env.JWT_KEY,
   algorithms: ["HS256"]
 });

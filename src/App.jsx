@@ -5,10 +5,8 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signin from "./components/Signin";
-import CommentsContainer from "./components/CommentsContainer";
-import UserCommentsContainer from "./components/UserCommentsContainer";
 import cookies from "js-cookie";
-import PostMessage from "./components/PostMessage";
+import Profile from "./components/Profile";
 
 function App() {
   const registeredUser = parseInt(cookies.get("id"));
@@ -23,16 +21,16 @@ function App() {
           <Login setUser={setUser} />
         </Route>
         <Route path="/signin">
-          <Signin />
+          <Signin setUser={setUser}/>
         </Route>
-        <Route path="/comments">
-          <CommentsContainer />
-        </Route>
-        <Route path="/my-comments">
-          <UserCommentsContainer user={user} />
-        </Route>
-        <Route path="/post-comment">
-          <PostMessage user={user} />
+        <Route path="/profile">
+          {user ? (
+            <>
+              <Profile user={user}/>
+            </>
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
       </Switch>
     </div>

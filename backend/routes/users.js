@@ -6,7 +6,12 @@ const comments = require("./comments");
 
 const { authWithJwt, checkUserId } = require("../services/jwt");
 
-router.use("/:userId/comments", authWithJwt, checkUserId, comments);
+router.use(
+  "/:userId/comments",
+  authWithJwt,
+  checkUserId,
+  comments
+);
 
 router.get("/", (req, res, next) => {
   const query = "SELECT * FROM user;";

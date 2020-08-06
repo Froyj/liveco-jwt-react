@@ -16,13 +16,7 @@ const Navbar = ({user, setUser}) => {
       </ul>
       <ul>
         <li>
-          <NavLink to="/comments">All Comments</NavLink>
-        </li>
-        <li>
-          <NavLink to="/my-comments">My Comments</NavLink>
-        </li>
-        <li>
-          <NavLink to="/post-comment">Post Comment</NavLink>
+        {user && <NavLink to="/profile">My profile</NavLink>}
         </li>
       </ul>
     </nav>
